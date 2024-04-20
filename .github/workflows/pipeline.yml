@@ -1,0 +1,111 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 'Build'
+    steps:
+      - name: 'Checkout repo'
+        uses: actions/checkout@v4
+      - name: 'Set up Node'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+      - name: 'Install dependencies'
+        run: npm ci
+      - name: 'Build app'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --outdir dist-app --dry-run
+      - name: 'Build collector'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --config wrangler-collector.toml --outdir dist-collector --dry-run
+      - name: 'Build analyzer'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --config wrangler-analyzer.toml --outdir dist-analyzer --dry-run
+      - name: 'Zip app'
+        run: zip -r app.zip dist-app public wrangler.toml
+      - name: 'Zip collector'
+        run: zip -r collector.zip dist-collector wrangler-collector.toml
+      - name: 'Zip analyzer'
+        run: zip -r analyzer.zip dist-analyzer wrangler-analyzer.toml
+      - name: 'Save app artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: app.zip
+      - name: 'Save collector artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: collector
+          path: collector.zip
+      - name: 'Save analyzer artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: analyzer
+          path: analyzer.zip
+  deploy-app:
+    name: 'Deploy app'
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Download app'
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+      - name: 'Unzip app artifact'
+        run: unzip app.zip
+      - name: 'Deploy app to Cloudflare'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy dist-app/index.js --no-bundle
+  deploy-analyzer:
+    name: 'Deploy analyzer'
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Download analyzer'
+        uses: actions/download-artifact@v4
+        with:
+          name: analyzer
+      - name: 'Unzip analyzer artifact'
+        run: unzip analyzer.zip
+      - name: 'Deploy analyzer to Cloudflare'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --config wrangler-analyzer.toml dist-analyzer/analyzer.js --no-bundle
+  deploy-collector:
+    name: 'Deploy collector'
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Download collector'
+        uses: actions/download-artifact@v4
+        with:
+          name: collector
+      - name: 'Unzip collector artifact'
+        run: unzip collector.zip
+      - name: 'Deploy collector to Cloudflare'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "3.51.2"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --config wrangler-collector.toml dist-collector/collector.js --no-bundle
