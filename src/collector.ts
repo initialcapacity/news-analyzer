@@ -7,21 +7,30 @@ type NewsResult = {
     rss: { channel: {item: Item[]} }
 }
 
+const collectFeed = (store: KVNamespace) => async (feedUrl: string): Promise<void> => {
+    console.log(`Collecting articles for ${feedUrl}`)
+    const result = await fetch(feedUrl)
+    if (!result.ok) {
+        console.log(`Unable to collect articles for ${feedUrl}`)
+    }
+    const json = await result.json() as NewsResult;
+
+    const articles = json.rss.channel.item;
+    console.log(`Found ${articles.length} articles for ${feedUrl}`)
+    const promises = articles.map(async article => {
+        await store.put(article.link, article.content_encoded);
+    });
+
+    await Promise.all(promises)
+    console.log(`Saved ${articles.length} articles for ${feedUrl}`)
+}
+
 export default {
     scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
-        console.log('Collecting news')
+        const feeds = env.FEED_URLS;
+        console.log(`Collecting news for ${feeds.length} feeds`)
 
-        const result = await fetch(env.FEED_URL)
-        if (!result.ok) {
-            console.error('Unable to fetch news')
-        }
-        const json = await result.json() as NewsResult;
-
-        const articles = json.rss.channel.item;
-        const promises = articles.map(async article => {
-            await env.ARTICLES.put(article.link, article.content_encoded);
-        });
-
+        const promises = feeds.map(collectFeed(env.ARTICLES))
         await Promise.all(promises)
     }
 };

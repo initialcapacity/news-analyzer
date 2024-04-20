@@ -4,7 +4,7 @@ type Env = {
     AI: Ai;
     VECTORIZE_INDEX: VectorizeIndex,
     ARTICLES: KVNamespace,
-    FEED_URL: string,
+    FEED_URLS: string[],
 }
 
 type EmbeddingResponse = {

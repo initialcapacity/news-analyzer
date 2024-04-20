@@ -10,7 +10,14 @@ kv_namespaces = [
 ]
 
 [vars]
-FEED_URL = "https://cdn.feedcontrol.net/7487/11169-gt9l6GJXjK2be.json"
+FEED_URLS = [
+    "https://cdn.feedcontrol.net/7487/11169-gt9l6GJXjK2be.json",
+    "https://cdn.feedcontrol.net/7487/11168-xnKjjg7sUDPAD.json",
+    "https://cdn.feedcontrol.net/7487/11167-tbTnM2SiBLArG.json",
+    "https://cdn.feedcontrol.net/7487/11170-a3wbiATi2URpg.json",
+    "https://cdn.feedcontrol.net/7487/11171-HXUb0hJIOblbg.json",
+    "https://cdn.feedcontrol.net/7487/11172-6BzD2eGRpeTlT.json",
+]
 
 [triggers]
 crons = [ "*/30 * * * *" ]
