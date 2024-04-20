@@ -53,6 +53,8 @@ input, select {
     border: 1px solid var(--border-color);
     color: var(--text-color);
     background-color: var(--background-color);
+
+    outline-color: var(--outline-color);
 }
 
 select {

@@ -9,6 +9,7 @@
 
     --text-color: var(--black);
     --link-color: var(--primary);
+    --outline-color: var(--primary);
     --icon-color: var(--black);
     --background-color: var(--white);
     --hover-background-color: var(--light-gray);
