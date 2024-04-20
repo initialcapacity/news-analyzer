@@ -14,7 +14,7 @@ app.post('/', async c => {
     const data = await c.req.formData()
     const query = data.get("query")
 
-    const queryVector: EmbeddingResponse = await c.env.AI.run('@cf/baai/bge-base-en-v1.5', {
+    const queryVector: EmbeddingResponse = await c.env.AI.run('@cf/baai/bge-large-en-v1.5', {
         text: [query],
     });
 
