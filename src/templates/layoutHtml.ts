@@ -17,6 +17,7 @@ export const layout = (content: TemplateString): TemplateString => html`
         <link rel="stylesheet" href="/static/css/typography.css">
         <link rel="stylesheet" href="/static/css/layout.css">
         <link rel="stylesheet" href="/static/css/buttons.css">
+        <link rel="stylesheet" href="/static/css/forms.css">
 
         <link rel="icon" href="/static/favicon.ico" sizes="48x48">
         <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml"/>
