@@ -16,7 +16,7 @@ index_name = "articles-index"
 binding = "AI"
 
 [triggers]
-crons = [ "*/10 * * * *" ]
+crons = [ "10-59/30 * * * *" ]
 
 [dev]
 port = 8789
