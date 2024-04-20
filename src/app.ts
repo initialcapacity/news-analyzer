@@ -13,6 +13,9 @@ app.get('/', c => c.html(layout(indexHtml())))
 app.post('/', async c => {
     const data = await c.req.formData()
     const query = data.get("query")
+    if (typeof query !== "string") {
+        return c.html(layout(indexHtml({response: "Unable to answer query"})));
+    }
 
     const queryVector: EmbeddingResponse = await c.env.AI.run('@cf/baai/bge-large-en-v1.5', {
         text: [query],
@@ -26,13 +29,13 @@ app.post('/', async c => {
 
     const metadata = result.matches[0]?.metadata;
     if (metadata === undefined) {
-        return c.html(layout(indexHtml({response: "Unable to answer query"})));
+        return c.html(layout(indexHtml({query, response: "Unable to answer query"})));
     }
 
     const matchLink = metadata.link as string;
     const article = await c.env.ARTICLES.get(matchLink)
     if (article === null) {
-        return c.html(layout(indexHtml({response: "Unable to answer query"})));
+        return c.html(layout(indexHtml({query, response: "Unable to answer query", source: matchLink})));
     }
     const messages = [
         { role: "system", content: "You are a friendly assistant" },
@@ -44,7 +47,7 @@ app.post('/', async c => {
     ];
 
     const textResult = await c.env.AI.run("@cf/meta/llama-2-7b-chat-fp16", { messages });
-    return c.html(layout(indexHtml({response: textResult.response, source: matchLink})));
+    return c.html(layout(indexHtml({query, response: textResult.response, source: matchLink})));
 })
 
 export default app satisfies ExportedHandler<Env>;
