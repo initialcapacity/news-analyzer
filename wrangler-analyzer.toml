@@ -1,0 +1,22 @@
+name = "news-analyzer"
+main = "src/analyzer.ts"
+compatibility_date = "2024-01-29"
+
+workers_dev = false
+
+kv_namespaces = [
+    { binding = "ARTICLES", id = "3033ae3d1aad4c99a7eec82d4a3077b5" }
+]
+
+[[vectorize]]
+binding = "VECTORIZE_INDEX"
+index_name = "articles-index"
+
+[ai]
+binding = "AI"
+
+[triggers]
+crons = [ "*/10 * * * *" ]
+
+[dev]
+port = 8789
