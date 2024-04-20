@@ -31,9 +31,12 @@ app.post('/', async c => {
 
     const matchLink = metadata.link as string;
     const article = await c.env.ARTICLES.get(matchLink)
+    if (article === null) {
+        return c.html(layout(indexHtml({response: "Unable to answer query"})));
+    }
     const messages = [
         { role: "system", content: "You are a friendly assistant" },
-        { role: "system", content: `Use the following article to answer the user's question: ${article}` },
+        { role: "system", content: `Use the following article to answer the user's question: ${article.slice(0, 5500)}` },
         {
             role: "user",
             content: query,
