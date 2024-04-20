@@ -24,11 +24,12 @@ app.post('/', async c => {
     const totalVectors = (await c.env.VECTORIZE_INDEX.describe()).vectorsCount
     console.log(`found ${numberOfResults} results among ${totalVectors} vectors`)
 
-    const matchLink = result.matches[0]?.metadata?.link as string;
-    if (matchLink === undefined) {
-        return c.html(layout(indexHtml("Unable to answer query")));
+    const metadata = result.matches[0]?.metadata;
+    if (metadata === undefined) {
+        return c.html(layout(indexHtml({response: "Unable to answer query"})));
     }
 
+    const matchLink = metadata.link as string;
     const article = await c.env.ARTICLES.get(matchLink)
     const messages = [
         { role: "system", content: "You are a friendly assistant" },
@@ -40,7 +41,7 @@ app.post('/', async c => {
     ];
 
     const textResult = await c.env.AI.run("@cf/meta/llama-2-7b-chat-fp16", { messages });
-    return c.html(layout(indexHtml(textResult.response)));
+    return c.html(layout(indexHtml({response: textResult.response, source: matchLink})));
 })
 
 export default app satisfies ExportedHandler<Env>;

@@ -1,6 +1,6 @@
 import {html} from "hono/html";
 
-export const indexHtml = (response: string | null = null) => html`
+export const indexHtml = ({response, source}: {response?: string | undefined, source?: string | undefined} = {}) => html`
     <section>
         <h1>Hello world</h1>
     </section>
@@ -10,11 +10,18 @@ export const indexHtml = (response: string | null = null) => html`
             <button type="submit">Submit</button>
         </form>
     </section>
-    ${response === null
+    ${response === undefined
             ? html``
             : html`
                 <section>
                     <p>${response}</p>
+                </section>
+            `}
+    ${source === undefined
+            ? html``
+            : html`
+                <section>
+                    Source: <a href="${source}">${source}</a>
                 </section>
             `}
 `
