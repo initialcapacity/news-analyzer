@@ -47,7 +47,7 @@ app.post('/', async c => {
         },
     ];
 
-    const textResult = await c.env.AI.run("@cf/meta/llama-2-7b-chat-fp16", { messages });
+    const textResult = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", { messages });
     return c.html(layout(indexHtml({query, response: textResult.response, source: matchLink})));
 })
 
