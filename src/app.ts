@@ -38,8 +38,9 @@ app.post('/', async c => {
         return c.html(layout(indexHtml({query, response: "Unable to answer query", source: matchLink})));
     }
     const messages = [
-        { role: "system", content: "You are a friendly assistant" },
-        { role: "system", content: `Use the following article to answer the user's question: ${article.slice(0, 5500)}` },
+        { role: "system", content: "You are a reporter for a major world newspaper." },
+        { role: "system", content: `Use the following article as a source respond to the user's query: ${article.slice(0, 5500)}` },
+        { role: "system", content: "Write your response as if you were writing a short, high-quality news article for your paper. Limit your response to two paragraphs" },
         {
             role: "user",
             content: query,
