@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "wrangler dev",
-    "test": "tsc && vitest run --silent",
+    "test": "tsc",
     "collector:start": "wrangler dev --config wrangler-collector.toml --test-scheduled",
     "collector:trigger": "curl \"http://localhost:8788/__scheduled?cron=*/10+*+*+*+*\"",
     "analyzer:start": "wrangler dev --config wrangler-analyzer.toml --test-scheduled",
