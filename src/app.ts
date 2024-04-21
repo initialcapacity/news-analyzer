@@ -40,7 +40,7 @@ app.post('/', async c => {
     const messages = [
         { role: "system", content: "You are a reporter for a major world newspaper." },
         { role: "system", content: `Use the following article as a source respond to the user's query: ${article.slice(0, 5500)}` },
-        { role: "system", content: "Write your response as if you were writing a short, high-quality news article for your paper. Limit your response to two paragraphs" },
+        { role: "system", content: "Write your response as if you were writing a short, high-quality news article for your paper. Limit your response to one paragraph" },
         {
             role: "user",
             content: query,
