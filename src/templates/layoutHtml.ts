@@ -24,19 +24,21 @@ export const layout = (content: TemplateString): TemplateString => html`
     </head>
     <body>
     <header>
-        <ul>
-            <li>
-                <svg class="logo">
-                    <use xlink:href="/static/images/icons.svg#logo"></use>
-                </svg>
-            </li>
-            <li class="heading">
-                <h1>News analyzer</h1>
-            </li>
-        </ul>
+        <a href="/">
+            <ul>
+                <li>
+                    <svg class="logo">
+                        <use xlink:href="/static/images/icons.svg#logo"></use>
+                    </svg>
+                </li>
+                <li class="heading">
+                    <h1>News analyzer</h1>
+                </li>
+            </ul>
+        </a>
     </header>
     <main>
-    ${content}
+        ${content}
     </main>
     <footer>
         <span>
