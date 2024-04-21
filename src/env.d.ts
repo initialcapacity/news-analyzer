@@ -1,3 +1,7 @@
+type Ai = {
+    run: (string, any) => Promise<any>
+}
+
 type Env = {
     __STATIC_CONTENT: KVNamespace,
     __STATIC_CONTENT_MANIFEST: string,

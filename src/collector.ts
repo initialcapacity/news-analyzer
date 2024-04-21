@@ -7,7 +7,7 @@ type NewsResult = {
     rss: { channel: {item: Item[]} }
 }
 
-const fetchDocuments = async (feedUrl: string): Promise<Item[]> => {
+const fetchArticles = async (feedUrl: string): Promise<Item[]> => {
     const result = await fetch(feedUrl)
     if (!result.ok) {
         console.log(`Unable to collect articles for ${feedUrl}`)
@@ -19,7 +19,7 @@ const fetchDocuments = async (feedUrl: string): Promise<Item[]> => {
     return articles;
 };
 
-const saveDocuments = async (articles: Item[], store: KVNamespace, feedUrl: string): Promise<void> => {
+const saveArticles = async (articles: Item[], store: KVNamespace, feedUrl: string): Promise<void> => {
     const promises = articles.map(async article => {
         await store.put(article.link, article.content_encoded);
     });
@@ -30,8 +30,8 @@ const saveDocuments = async (articles: Item[], store: KVNamespace, feedUrl: stri
 const processFeed = (store: KVNamespace) => async (feedUrl: string): Promise<void> => {
     console.log(`Collecting articles for ${feedUrl}`)
 
-    const articles = await fetchDocuments(feedUrl);
-    await saveDocuments(articles, store, feedUrl);
+    const articles = await fetchArticles(feedUrl);
+    await saveArticles(articles, store, feedUrl);
 }
 
 export default {
