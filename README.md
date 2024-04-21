@@ -13,7 +13,7 @@ Internally we call this the Data Collector architecture.
 ```mermaid
 flowchart LR
     user((User)) --> app[Web App]
-    app --> db[(Database)]
+    app --> db[("Database(s)")]
     collector[Data Collector] --> db
     analyzer[Data Analyzer] --> db
 ```
