@@ -43,14 +43,14 @@ flowchart LR
     collector[Data Collector]
     analyzer[Data Analyzer]
     
-    collector -- collect documents --> docs
+    collector -- fetch documents --> docs
     collector -- save documents --> db
     analyzer -- retrieve documents --> db
     analyzer -- create embeddings --> embeddings
     analyzer -- save embeddings --> vdb
 ```
 
-1.  The data collector collects documents from one or more sources and stores the document text in a database.
+1.  The data collector fetches documents from one or more sources and stores the document text in a database.
 1.  The data analyzer reads the collected data, creates embeddings, and stores these embeddings a vector database.
 
 ```mermaid
