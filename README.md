@@ -12,10 +12,18 @@ Internally we call this the Data Collector architecture.
 
 ```mermaid
 flowchart LR
-    user((User)) --> app[Web App]
-    app --> db[("Database(s)")]
-    collector[Data Collector] --> db
-    analyzer[Data Analyzer] --> db
+    user((User))
+    app[Web App]
+    docs(["Document Source(s)"])
+    db[("Database(s)")]
+    collector[Data Collector]
+    analyzer[Data Analyzer]
+    
+    user --> app
+    collector --> docs
+    collector --> db
+    app --> db
+    analyzer --> db
 ```
 
 The Data Collector architecture consists of three deployed applications talking to one or more databases.
@@ -37,7 +45,7 @@ A variation of the Data Collector architecture emerges in LLM applications
 ```mermaid
 flowchart LR
     embeddings([Embedding Service])
-    docs([Document Source])
+    docs(["Document Source(s)"])
     vdb[(Vector Database)]
     db[(Document Database)]
     collector[Data Collector]
