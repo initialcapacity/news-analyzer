@@ -12,7 +12,7 @@ app.get('/static/*', serveStatic({root: './', manifest}))
 app.get('/', c => c.html(layout(indexHtml())))
 
 const createEmbedding = async (ai: Ai, query: string): Promise<number[]> => {
-    const queryVector: EmbeddingResponse = await ai.run('@cf/baai/bge-large-en-v1.5', {
+    const queryVector: EmbeddingResponse = await ai.run('@hf/thebloke/llama-2-13b-chat-awq', {
         text: [query],
     });
     return queryVector.data[0];
