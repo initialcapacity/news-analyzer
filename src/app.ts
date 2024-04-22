@@ -12,7 +12,7 @@ app.get('/static/*', serveStatic({root: './', manifest}))
 app.get('/', c => c.html(layout(indexHtml())))
 
 const createEmbedding = async (ai: Ai, query: string): Promise<number[]> => {
-    const queryVector: EmbeddingResponse = await ai.run('@hf/thebloke/llama-2-13b-chat-awq', {
+    const queryVector: EmbeddingResponse = await ai.run('@cf/baai/bge-large-en-v1.5', {
         text: [query],
     });
     return queryVector.data[0];
@@ -42,7 +42,7 @@ const fetchTextCompletion = async (ai: Ai, article: string, query: string): Prom
         },
     ];
 
-    const textResult = await ai.run("@cf/meta/llama-3-8b-instruct", {messages});
+    const textResult = await ai.run("@hf/thebloke/llama-2-13b-chat-awq", {messages});
     return textResult.response;
 };
 
