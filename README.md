@@ -29,7 +29,7 @@ flowchart LR
     classDef app fill:#3185FC;
     classDef db fill:#B744B8;
     classDef external fill:#FA9F42;
-    classDef user color: black;
+    classDef user fill:#ED6A5A;
 
     class app,collector,analyzer app;
     class db db;
@@ -73,7 +73,7 @@ flowchart LR
     classDef db fill:#B744B8;
     class app,collector,analyzer app;
     classDef external fill:#FA9F42;
-    classDef user color: black;
+    classDef user fill:#ED6A5A;
 
     class db,vdb db;
     class docs,embeddings external;
@@ -102,7 +102,7 @@ flowchart LR
     classDef app fill:#3185FC;
     classDef db fill:#B744B8;
     classDef external fill:#FA9F42;
-    classDef user color: black;
+    classDef user fill:#ED6A5A;
 
     class app,collector,analyzer app;
     class db,vdb db;
