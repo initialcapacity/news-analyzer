@@ -2,7 +2,7 @@
 
 [Initial Capacity](https://initialcapacity.io) has worked on several production AI applications using LLMs.
 We see a common pattern in these applications:
-They need to collect and store lots of data from various sources, analyze this data with transformations and embeddings,
+They collect and store large amounts of data from various sources, analyze this data with transformations and embeddings,
 and display the results to users on the web.
 
 ## Data Collector Architecture
@@ -24,6 +24,17 @@ flowchart LR
     collector --> db
     app --> db
     analyzer --> db
+
+    classDef node font-weight:bold,color:white,stroke:black,stroke-width:2px;
+    classDef app fill:#3185FC;
+    classDef db fill:#B744B8;
+    classDef external fill:#FA9F42;
+    classDef user color: black;
+
+    class app,collector,analyzer app;
+    class db db;
+    class docs external;
+    class user user;
 ```
 
 The Data Collector architecture consists of three deployed applications talking to one or more databases.
@@ -56,6 +67,17 @@ flowchart LR
     analyzer -- retrieve documents --> db
     analyzer -- create embeddings --> embeddings
     analyzer -- save embeddings --> vdb
+
+    classDef node font-weight:bold,color:white,stroke:black,stroke-width:2px;
+    classDef app fill:#3185FC;
+    classDef db fill:#B744B8;
+    class app,collector,analyzer app;
+    classDef external fill:#FA9F42;
+    classDef user color: black;
+
+    class db,vdb db;
+    class docs,embeddings external;
+    class user user;
 ```
 
 1.  The data collector fetches documents from one or more sources and stores the document text in a database.
@@ -75,6 +97,17 @@ flowchart LR
     app -- search embeddings --> vdb
     app -- retrieve documents --> db
     app -- fetch text completion --> llm
+
+    classDef node font-weight:bold,color:white,stroke:black,stroke-width:2px;
+    classDef app fill:#3185FC;
+    classDef db fill:#B744B8;
+    classDef external fill:#FA9F42;
+    classDef user color: black;
+
+    class app,collector,analyzer app;
+    class db,vdb db;
+    class docs,embeddings,llm external;
+    class user user;
 ```
 
 The web application collects user input, creates an embedding, searches the vector database for similar embeddings,
@@ -87,5 +120,5 @@ It's built using Cloudflare's [Workers](https://developers.cloudflare.com/worker
 [AI](https://developers.cloudflare.com/ai), and [Vectorize](https://developers.cloudflare.com/vectorize/), but the
 architecture can be implemented in may different stacks (Google Cloud's [Cloud Run](https://cloud.google.com/run) and
 [Cloud Functions](https://cloud.google.com/functions) with the [OpenAI API](https://platform.openai.com/docs/introduction),
-and [Go](https://go.dev/) is another particularly well-suited stack).
+and [Go](https://go.dev/) combine to make another stack well-suited to the architecture).
 
