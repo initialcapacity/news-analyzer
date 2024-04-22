@@ -74,7 +74,7 @@ flowchart LR
     app -- create embedding --> embeddings
     app -- search embeddings --> vdb
     app -- retrieve documents --> db
-    app -- get text completion --> llm
+    app -- fetch text completion --> llm
 ```
 
 The web application collects user input, creates an embedding, searches the vector database for similar embeddings,
