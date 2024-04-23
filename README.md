@@ -45,11 +45,11 @@ The Data Collector architecture consists of three deployed applications talking 
 1.  The data analyzer is another background process that reads the collected data, performs analysis, and stores the
     result in a database.
 
-Allows the various parts of the system to change and scale at different paces. Decoupled yet cohesive.
+The architecture allows the various parts of the system to change and scale at different paces.
 
 ## LLM Collection Architecture
 
-A variation of the Data Collector architecture emerges in LLM applications
+A variation of the Data Collector architecture emerges in LLM applications.
 
 ### Collection
 
@@ -58,7 +58,7 @@ flowchart LR
     embeddings([Embedding Service])
     docs(["Document Source(s)"])
     vdb[(Vector Database)]
-    db[(Document Database)]
+    db[(Document Storage)]
     collector[Data Collector]
     analyzer[Data Analyzer]
     
@@ -89,7 +89,7 @@ flowchart LR
     user((User))
     app[Web App]
     vdb[(Vector Database)]
-    db[(Document Database)]
+    db[(Document Storage)]
     llm([LLM])
     
     user -- query --> app
@@ -120,5 +120,4 @@ It's built using Cloudflare's [Workers](https://developers.cloudflare.com/worker
 [AI](https://developers.cloudflare.com/ai), and [Vectorize](https://developers.cloudflare.com/vectorize/), but the
 architecture can be implemented in may different stacks (Google Cloud's [Cloud Run](https://cloud.google.com/run) and
 [Cloud Functions](https://cloud.google.com/functions) with the [OpenAI API](https://platform.openai.com/docs/introduction),
-and [Go](https://go.dev/) combine to make another stack well-suited to the architecture).
-
+and [Go](https://go.dev/) are another stack which is well-suited to the architecture).
