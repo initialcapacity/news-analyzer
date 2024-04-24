@@ -13,6 +13,9 @@ export const indexHtml = ({query, response, source}: IndexProperties = {}) => {
     return html`
         <section>
             <h1>${heading}</h1>
+            
+            <p>Ask a question about current events.</p>
+            
             <form action="/" method="post">
                 <fieldset>
                     <label>
