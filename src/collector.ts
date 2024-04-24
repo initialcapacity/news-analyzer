@@ -4,7 +4,7 @@ type Item = {
 }
 
 type NewsResult = {
-    rss: { channel: {item: Item[]} }
+    rss: { channel: { item: Item[] } }
 }
 
 const fetchArticles = async (feedUrl: string): Promise<Item[]> => {
@@ -20,11 +20,17 @@ const fetchArticles = async (feedUrl: string): Promise<Item[]> => {
 };
 
 const saveArticles = async (articles: Item[], store: KVNamespace, feedUrl: string): Promise<void> => {
+    let skips = 0;
     const promises = articles.map(async article => {
-        await store.put(article.link, article.content_encoded);
+        const existing = await store.get(article.link);
+        if (existing === null) {
+            await store.put(article.link, article.content_encoded);
+        } else {
+            skips++;
+        }
     });
     await Promise.all(promises)
-    console.log(`Saved ${articles.length} articles for ${feedUrl}`)
+    console.log(`Saved ${articles.length - skips} (skipped ${skips}) articles for ${feedUrl}`)
 };
 
 const processFeed = (store: KVNamespace) => async (feedUrl: string): Promise<void> => {
