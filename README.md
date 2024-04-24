@@ -66,7 +66,7 @@ flowchart LR
     collector -- save documents --> db
     analyzer -- retrieve documents --> db
     analyzer -- create embeddings --> embeddings
-    analyzer -- save embeddings --> vdb
+    analyzer -- "save embeddings \n (with reference)" --> vdb
 
     classDef node font-weight:bold,color:white,stroke:black,stroke-width:2px;
     classDef app fill:#3185FC;
