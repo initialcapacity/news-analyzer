@@ -14,13 +14,13 @@ Internally we call this the Data Collector architecture.
 flowchart LR
     user((User))
     app[Web App]
-    docs(["Document Source(s)"])
+    data(["Data Source(s)"])
     db[("Database(s)")]
     collector[Data Collector]
     analyzer[Data Analyzer]
     
     user --> app
-    collector --> docs
+    collector --> data
     collector --> db
     app --> db
     analyzer --> db
@@ -33,7 +33,7 @@ flowchart LR
 
     class app,collector,analyzer app;
     class db db;
-    class docs external;
+    class data external;
     class user user;
 ```
 
